@@ -1,12 +1,6 @@
 from flask import Blueprint
 import src.controllers.medida as controllers
 
-# [x] buscar medidas de um usuario
-# [x] buscar medida por medida_id
-# [x] criar medida
-# [x] atualizar medida
-# [ ] deletar medida
-
 medida_bp = Blueprint('medidas', __name__)
  
 @medida_bp.route("/medidas", methods=('GET',))
