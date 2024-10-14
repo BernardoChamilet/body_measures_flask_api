@@ -127,6 +127,26 @@ def buscarSenha(id):
     else:
         # Nenhum usuário com esse id encontrado
         return None, None
+    
+# buscarSenha busca a senha de um usuário usando usuario
+def buscarSenhaEIDPeloUser(user):
+    try:
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, senha FROM usuarios WHERE usuario=?",(user,))
+        senhaEID = cursor.fetchone()
+    except sqlite3.DatabaseError as e:
+        # Erro interno de servidor
+        return None, None, f"Erro de banco de dados: {e}"
+    finally:
+        if conn:
+            conn.close()
+    if senhaEID != None:
+        # Sucesso, retornando senha
+        return senhaEID[1], senhaEID[0], None
+    else:
+        # Nenhum usuário encontrado
+        return None, None, None
 
 # deletarUsuario deleta um usuário
 def deletarUsuario(id):

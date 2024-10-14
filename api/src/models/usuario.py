@@ -10,3 +10,8 @@ class Usuario(BaseModel):
 class Senhas(BaseModel):
     senha_atual: str = Field(..., min_length=6)
     senha_nova: str = Field(..., min_length=6)
+
+# Classe para validação de campos no login
+class Login(BaseModel):
+    usuario: str
+    senha: str
