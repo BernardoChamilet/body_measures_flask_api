@@ -1,5 +1,6 @@
 from flask import Blueprint
 import src.controllers.usuario as controllers
+from src.middlewares.auth import validarToken
 
 usuario_bp = Blueprint('usuarios', __name__)
 
@@ -20,15 +21,18 @@ def criarUsuario():
 
 # Rota de atualizar dados exceto senha de usuário
 @usuario_bp.route("/usuarios/<id>", methods=("PUT",))
+@validarToken
 def atualizarUsuario(id):
     return controllers.atualizarUsuario(id)
 
 # Rota de atualizar senha de um usuário
 @usuario_bp.route("/usuarios/<id>/atualizar-senha", methods=("PATCH",))
+@validarToken
 def atualizarSenha(id):
     return controllers.atualizarSenha(id)
 
 # Rota de deletar usuário
 @usuario_bp.route("/usuarios/<id>", methods=('DELETE',))
+@validarToken
 def deletarUsuario(id):
     return controllers.deletarUsuario(id)   
