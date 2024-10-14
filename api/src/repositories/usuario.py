@@ -75,6 +75,41 @@ def atualizarUsuario(usuario, id):
         return None, None
     else:
         return 0, None
+    
+# atualizarSenha atualiza senha de um usuário    
+def atualizarSenha(senha, id):
+    try:
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        cursor.execute("UPDATE usuarios SET senha=? where id=?",(senha, id))
+        numLinhasAlteradas = cursor.rowcount
+        conn.commit()
+    except sqlite3.DatabaseError as e:
+        return None, f"Erro de banco de dados: {e}"
+    finally:
+        if conn:
+            conn.close()
+    if numLinhasAlteradas > 0:
+        return None, None
+    else:
+        return 0, None
+
+# buscarSenha busca a senha de um usuário
+def buscarSenha(id):
+    try:
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        cursor.execute("SELECT senha FROM usuarios WHERE id=?",(id,))
+        senha = cursor.fetchone()
+    except sqlite3.DatabaseError as e:
+        return None, f"Erro de banco de dados: {e}"
+    finally:
+        if conn:
+            conn.close()
+    if senha != None:
+        return senha[0], None
+    else:
+        return None, None
 
 # deletarUsuario deleta um usuário
 def deletarUsuario(id):

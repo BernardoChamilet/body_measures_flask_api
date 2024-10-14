@@ -26,6 +26,10 @@ def criarUsuario():
 def atualizarUsuario(id):
     return controllers.atualizarUsuario(id)
 
+@usuario_bp.route("/usuarios/<id>/atualizar-senha", methods=("PATCH",))
+def atualizarSenha(id):
+    return controllers.atualizarSenha(id)
+
 @usuario_bp.route("/usuarios/<id>", methods=('DELETE',))
 def deletarUsuario(id):
     return controllers.deletarUsuario(id)   

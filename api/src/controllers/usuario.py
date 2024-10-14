@@ -51,9 +51,39 @@ def atualizarUsuario(id):
     if erro != None:
         return jsonify({"erro": erro}), 500
     elif linhasAtualizadas == 0:
-        return jsonify({"erro":"Nenhum usuário com esse id encontrado"}), 400
+        return jsonify({"erro":"Nenhum usuário com esse id encontrado"}), 404
     else:
         return '', 204
+
+# atualizarSenha atualizar a senha de um usuário
+def atualizarSenha(id):
+    dados = request.get_json()
+    try:
+        senhas = models.Senhas(**dados)
+    except ValidationError as e:
+        return jsonify({"erro": e.errors()}), 400
+    senhaSalva, erro = repositories.buscarSenha(id)
+    if erro != None:
+        return jsonify({"erro": erro}), 500
+    elif senhaSalva == None:
+        return jsonify({"erro":"Nenhum usuário com esse id encontrado"}), 404
+    else:
+        senhaAtual = senhas.senha_atual
+        if bcrypt.check_password_hash(senhaSalva, senhaAtual):
+            senhaNova = senhas.senha_nova
+            if bcrypt.check_password_hash(senhaSalva, senhaNova):
+                return jsonify({"erro": "Nova senha não pode ser igual a senha atual"}), 400
+            senhaNova = bcrypt.generate_password_hash(senhaNova).decode('utf-8')
+            linhasAtualizadas, erro = repositories.atualizarSenha(senhaNova, id)
+            if erro != None:
+                return jsonify({"erro": erro}), 500
+            elif linhasAtualizadas == 0:
+                return jsonify({"erro":"Nenhum usuário com esse id encontrado"}), 404
+            else:
+                return '', 204
+        else:
+            return jsonify({"erro":"Senha atual incorreta"}), 400
+
 
 # deletarUsuario deleta um usuario    
 def deletarUsuario(id):
@@ -61,6 +91,6 @@ def deletarUsuario(id):
     if erro != None:
         return jsonify({"erro": erro}), 500
     elif linhasDeletadas == 0:
-        return jsonify({"erro":"Nenhum usuário com esse id encontrado"}), 400
+        return jsonify({"erro":"Nenhum usuário com esse id encontrado"}), 404
     else:
         return jsonify({"id":id}), 200
