@@ -1,7 +1,8 @@
 from pydantic import BaseModel
+from datetime import date
 
 class Medida(BaseModel):
-    data: str
+    data: date
     peso: float
     ombro: float
     peito: float

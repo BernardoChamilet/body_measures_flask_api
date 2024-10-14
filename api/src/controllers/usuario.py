@@ -1,6 +1,10 @@
 from flask import jsonify, request
 import src.repositories.usuario as repositories
 import src.models.usuario as models
+from flask_bcrypt import Bcrypt
+from pydantic import ValidationError
+
+bcrypt = Bcrypt()
 
 # buscarUsuario busca dados não sensíveis de um usuário
 def buscarUsuario(id):
@@ -27,9 +31,11 @@ def criarUsuario():
     dados = request.get_json()
     try:
         usuario = models.Usuario(**dados)
-    except:
-        return jsonify({"erro": 'bad request'}), 400
-    usuarioID, erro = repositories.criarUsuario(usuario.model_dump())
+    except ValidationError as e:
+        return jsonify({"erro": e.errors()}), 400
+    usuarioDict = usuario.model_dump()
+    usuarioDict["senha"] = bcrypt.generate_password_hash(usuarioDict["senha"]).decode('utf-8')
+    usuarioID, erro = repositories.criarUsuario(usuarioDict)
     if erro != None:
         return jsonify({"erro": erro}), 500
     return jsonify({"id": usuarioID}), 201
@@ -39,8 +45,8 @@ def atualizarUsuario(id):
     dados = request.get_json()
     try:
         usuario = models.Usuario(**dados)
-    except:
-        return jsonify({"erro": 'bad request'}), 400
+    except ValidationError as e:
+        return jsonify({"erro": e.errors()}), 400
     linhasAtualizadas, erro = repositories.atualizarUsuario(usuario.model_dump(), id)
     if erro != None:
         return jsonify({"erro": erro}), 500
