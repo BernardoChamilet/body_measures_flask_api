@@ -50,7 +50,7 @@ def atualizarMedida(id):
     if erro != None:
         return jsonify({"erro": erro}), 500
     elif linhasAtualizadas == 0:
-        return jsonify({"erro":"Nenhuma medida com esse id encontrada"}), 400
+        return jsonify({"erro":"Nenhuma medida com esse id encontrada"}), 404
     else:
         return '', 204
     
@@ -60,6 +60,6 @@ def deletarMedida(id):
     if erro != None:
         return jsonify({"erro": erro}), 500
     elif linhasDeletadas == 0:
-        return jsonify({"erro":"Nenhuma medida com esse id encontrada"}), 400
+        return jsonify({"erro":"Nenhuma medida com esse id encontrada"}), 404
     else:
         return jsonify({"id":id}), 200
