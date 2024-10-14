@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 
+# Criando tabelas do banco de dados
+
 # Caminho absoluto até o diretório principal onde o .env está localizado
 env_path = Path(__file__).resolve().parent.parent / '.env'
 

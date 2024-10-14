@@ -13,16 +13,19 @@ def buscarMedidas(user):
         cursor.execute("SELECT * FROM medidas WHERE usuario=?",(user,))
         linhas = cursor.fetchall()
     except sqlite3.DatabaseError as e:
+        # Erro interno de servidor
         return None, f"Erro de banco de dados: {e}"
     finally:
         if conn:
             conn.close()
     if linhas:
+        # Medidas encontradas
         medidas = []
         for linha in linhas:
             medidas.append(dict(linha))
         return medidas, None
     else:
+        # Nenhuma medida encontrada
         return None, None
 
 # buscarMedida busca uma medida pelo seu id
@@ -34,13 +37,16 @@ def buscarMedida(id):
         cursor.execute("SELECT * FROM medidas WHERE id=?",(id,))
         medida = cursor.fetchone()
     except sqlite3.DatabaseError as e:
+        # Erro interno de servidor
         return None, f"Erro de banco de dados: {e}"
     finally:
         if conn:
             conn.close()
     if medida != None:
+        # Medida encontrada
         return dict(medida), None
     else:
+        # Nenhuma medida encontrada
         return None, None
 
 # inserirMedida insere uma nova medida de um usuário
@@ -53,10 +59,12 @@ def inserirMedida(medidas, user):
         ultimo_id = cursor.lastrowid
         conn.commit()
     except sqlite3.DatabaseError as e:
+        # Erro interno de servidor
         return None, f"Erro de banco de dados: {e}"
     finally:
         if conn:
             conn.close()
+    # Medida criada, retornando id
     return ultimo_id, None
 
 # atualizarMedida atualiza dados de uma medida
@@ -68,13 +76,16 @@ def atualizarMedida(medidas, id):
         numLinhasAlteradas = cursor.rowcount
         conn.commit()
     except sqlite3.DatabaseError as e:
+        # Erro interno de servidor
         return None, f"Erro de banco de dados: {e}"
     finally:
         if conn:
             conn.close()
     if numLinhasAlteradas > 0:
+        # Sucesso, medida atualizada
         return None, None
     else:
+        # Nenhuma medida com esse id encontrada
         return 0, None
     
 # deletarMedida deleta uma medida    
@@ -86,11 +97,14 @@ def deletarMedida(id):
         numLinhasAlteradas = cursor.rowcount
         conn.commit()
     except sqlite3.DatabaseError as e:
+        # Erro interno de servidor
         return None, f"Erro de banco de dados: {e}"
     finally:
         if conn:
             conn.close()
     if numLinhasAlteradas > 0:
+        # Medida deletada
         return None, None
     else:
+        # Nenhuma medida com esse id encontrada
         return 0, None 

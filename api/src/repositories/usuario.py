@@ -13,13 +13,16 @@ def buscarUsuario(id):
         cursor.execute("SELECT usuario, nome FROM usuarios WHERE id=?",(id,))
         usuario = cursor.fetchone()
     except sqlite3.DatabaseError as e:
+        # Erro interno de servidor
         return None, f"Erro de banco de dados: {e}"
     finally:
         if conn:
             conn.close()
     if usuario != None:
+        # Usuário encontrado
         return dict(usuario), None
     else:
+        # Usuário não encontrado
         return None, None
     
 # buscarUsuarios busca dados de todos usuários, exceto senhas
@@ -31,16 +34,19 @@ def buscarUsuarios():
         cursor.execute("SELECT usuario, nome FROM usuarios")
         linhas = cursor.fetchall()
     except sqlite3.DatabaseError as e:
+        # Erro interno de servidor
         return None, f"Erro de banco de dados: {e}"
     finally:
         if conn:
             conn.close()
     if linhas:
+        # Usuarios encontrados
         usuarios = []
         for linha in linhas:
             usuarios.append(dict(linha))
         return usuarios, None
     else:
+        # Nenhum usuário encontrado
         return None, None
 
 # criarUsuario insere um novo usuário no banco de dados    
@@ -52,10 +58,12 @@ def criarUsuario(usuario):
         ultimo_id = cursor.lastrowid
         conn.commit()
     except sqlite3.DatabaseError as e:
+        # Erro interno de servidor
         return None, f"Erro de banco de dados: {e}"
     finally:
         if conn:
             conn.close()
+    # Usuário criado, retornando id
     return ultimo_id, None
 
 # atualizar usuário atualiza dados de um usuário, exceto a senha
@@ -67,13 +75,16 @@ def atualizarUsuario(usuario, id):
         numLinhasAlteradas = cursor.rowcount
         conn.commit()
     except sqlite3.DatabaseError as e:
+        # Erro interno de servidor
         return None, f"Erro de banco de dados: {e}"
     finally:
         if conn:
             conn.close()
     if numLinhasAlteradas > 0:
+        # Sucesso
         return None, None
     else:
+        # Nenhuma linha alterada
         return 0, None
     
 # atualizarSenha atualiza senha de um usuário    
@@ -85,13 +96,16 @@ def atualizarSenha(senha, id):
         numLinhasAlteradas = cursor.rowcount
         conn.commit()
     except sqlite3.DatabaseError as e:
+        # Erro interno de servidor
         return None, f"Erro de banco de dados: {e}"
     finally:
         if conn:
             conn.close()
     if numLinhasAlteradas > 0:
+        # Sucesso
         return None, None
     else:
+        # Nenhuma linha alterada
         return 0, None
 
 # buscarSenha busca a senha de um usuário
@@ -102,13 +116,16 @@ def buscarSenha(id):
         cursor.execute("SELECT senha FROM usuarios WHERE id=?",(id,))
         senha = cursor.fetchone()
     except sqlite3.DatabaseError as e:
+        # Erro interno de servidor
         return None, f"Erro de banco de dados: {e}"
     finally:
         if conn:
             conn.close()
     if senha != None:
+        # Sucesso, retornando senha
         return senha[0], None
     else:
+        # Nenhum usuário com esse id encontrado
         return None, None
 
 # deletarUsuario deleta um usuário
@@ -120,11 +137,14 @@ def deletarUsuario(id):
         numLinhasAlteradas = cursor.rowcount
         conn.commit()
     except sqlite3.DatabaseError as e:
+        # Erro interno de servidor
         return None, f"Erro de banco de dados: {e}"
     finally:
         if conn:
             conn.close()
     if numLinhasAlteradas > 0:
+        # Linha apagada
         return None, None
     else:
+        # Nenhum linha apagada
         return 0, None 
