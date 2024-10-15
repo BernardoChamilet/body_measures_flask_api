@@ -57,6 +57,10 @@ def criarUsuario(usuario):
         cursor.execute("INSERT INTO usuarios (usuario, nome, senha) VALUES (?,?,?)",(usuario['usuario'], usuario['nome'], usuario['senha']))
         ultimo_id = cursor.lastrowid
         conn.commit()
+    except sqlite3.IntegrityError as e:
+        if 'UNIQUE constraint failed: usuarios.usuario' in str(e):
+            # Erro de nome de usuário já existente (erro 400 e não 500)
+            return None, 409
     except sqlite3.DatabaseError as e:
         # Erro interno de servidor
         return None, f"Erro de banco de dados: {e}"
@@ -74,6 +78,10 @@ def atualizarUsuario(usuario, id):
         cursor.execute("UPDATE usuarios SET usuario=?, nome=? where id=?",(usuario['usuario'], usuario['nome'], id))
         numLinhasAlteradas = cursor.rowcount
         conn.commit()
+    except sqlite3.IntegrityError as e:
+        if 'UNIQUE constraint failed: usuarios.usuario' in str(e):
+            # Erro de nome de usuário já existente (erro 400 e não 500)
+            return None, 409
     except sqlite3.DatabaseError as e:
         # Erro interno de servidor
         return None, f"Erro de banco de dados: {e}"

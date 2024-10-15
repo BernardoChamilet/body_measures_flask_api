@@ -49,6 +49,9 @@ def criarUsuario():
     # Chamando banco de dados para criar usuário
     usuarioID, erro = repositories.criarUsuario(usuarioDict)
     if erro != None:
+        if erro == 409:
+            # Erro, usuário já existe
+            return jsonify({"erro": "Usuário já existe"}), 409
         # Erro interno de servidor de banco de dados
         return jsonify({"erro": erro}), 500
     # Sucesso, retorna id do usuário criado
@@ -66,6 +69,9 @@ def atualizarUsuario(id):
     # Chamando banco de dados para atualizar dados
     linhasAtualizadas, erro = repositories.atualizarUsuario(usuario.model_dump(), id)
     if erro != None:
+        if erro == 409:
+            # Erro, usuário já existe
+            return jsonify({"erro": "Usuário já existe"}), 409
         # Erro interno de servidor de banco de dados
         return jsonify({"erro": erro}), 500
     elif linhasAtualizadas == 0:
