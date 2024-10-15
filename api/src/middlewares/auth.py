@@ -1,6 +1,6 @@
 from functools import wraps
 import jwt
-from flask import request, jsonify
+from flask import request, jsonify, g
 from src.config.config import secret_key
 
 # Decorator para validar o token
@@ -14,7 +14,8 @@ def validarToken(f):
             return jsonify({'erro': 'Token faltando'}), 401
         try:
             # Decodifica e valida o token
-            _ = jwt.decode(token, secret_key, algorithms=['HS256'])
+            payload = jwt.decode(token, secret_key, algorithms=['HS256'])
+            g.user_id = payload.get('user_id')
         except jwt.ExpiredSignatureError:
             # Token expirado
             return jsonify({'erro': 'Token expirado'}), 401

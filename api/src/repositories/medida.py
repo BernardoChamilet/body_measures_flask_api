@@ -49,6 +49,27 @@ def buscarMedida(id):
         # Nenhuma medida encontrada
         return None, None
 
+# buscarDono busca o dono da medida pelo id da medida    
+def buscarDono(id):
+    try:
+        conn = sqlite3.connect(db_path)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute("SELECT usuario FROM medidas WHERE id=?",(id,))
+        dono = cursor.fetchone()
+    except sqlite3.DatabaseError as e:
+        # Erro interno de servidor
+        return None, f"Erro de banco de dados: {e}"
+    finally:
+        if conn:
+            conn.close()
+    if dono != None:
+        # Medida encontrada
+        return dono[0], None
+    else:
+        # Nenhuma medida encontrada
+        return None, None
+
 # inserirMedida insere uma nova medida de um usuário
 def inserirMedida(medidas, user):
     try:

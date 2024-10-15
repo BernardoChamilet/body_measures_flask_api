@@ -1,12 +1,12 @@
-from flask import jsonify, request
+from flask import jsonify, request, g
 import src.repositories.medida as repositories
 import src.models.medida as models
 from pydantic import ValidationError
 
 # buscarMedidas busca todas medidas de um usuário
 def buscarMedidas():
-    # Pegar id do token
-    id_logado = 1
+    # Pegando id do token
+    id_logado = int(g.user_id)
     # Chamando banco de dados para buscar medidas
     medidas, erro = repositories.buscarMedidas(id_logado)
     if erro != None:
@@ -35,8 +35,8 @@ def buscarMedida(id):
     
 # inserirMedida cria uma nova medida de um usuário 
 def inserirMedida():
-    #Pegar id do token
-    id_logado = 1
+    # Pegando id do token
+    id_logado = int(g.user_id)
     # Lendo corpo da requisição
     dados = request.get_json()
     # Validando campos
@@ -54,6 +54,19 @@ def inserirMedida():
 
 # atualizarMedida atualiza dados de uma medida
 def atualizarMedida(id):
+    # Pegando id do token
+    id_logado = int(g.user_id)
+    # Chamando banco de dados para buscar o dono da medida
+    dono_id, erro = repositories.buscarDono(id)
+    if erro != None:
+        # Erro interno de servidor de banco de dados
+        return jsonify({"erro": erro}), 500
+    if dono_id == None:
+        # Erro, nenhuma medida com esse id
+        return jsonify({"erro":"Nenhuma medida com esse id encontrada"}), 404
+    if id_logado != int(dono_id):
+        # Erro, não autorizado a atualizar a medida
+        return jsonify({"erro": "Somente pode atualizar as próprias medidas"}), 403
     # Lendo corpo da requisição
     dados = request.get_json()
     # Validando dados
@@ -75,6 +88,19 @@ def atualizarMedida(id):
     
 # deletarMedida deleta uma medida    
 def deletarMedida(id):
+    # Pegando id do token
+    id_logado = int(g.user_id)
+    # Chamando banco de dados para buscar o dono da medida
+    dono_id, erro = repositories.buscarDono(id)
+    if erro != None:
+        # Erro interno de servidor de banco de dados
+        return jsonify({"erro": erro}), 500
+    if dono_id == None:
+        # Erro, nenhuma medida com esse id
+        return jsonify({"erro":"Nenhuma medida com esse id encontrada"}), 404
+    if id_logado != int(dono_id):
+        # Erro, não autorizado a deletar a medida
+        return jsonify({"erro": "Somente pode deletar as próprias medidas"}), 403
     # Chamando banco de dados para deletar medida
     linhasDeletadas, erro = repositories.deletarMedida(id)
     if erro != None:
