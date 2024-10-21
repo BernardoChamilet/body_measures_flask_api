@@ -7,7 +7,7 @@ usuario_bp = Blueprint('usuarios', __name__)
 # Rota de buscar usuário pelo id
 @usuario_bp.route("/usuarios/<id>", methods=('GET',))
 def buscarUsuario(id):
-    return controllers.buscarUsuario(id)
+    return controllers.buscarUsuario(int(id))
 
 # Rota de buscar todos usuários
 @usuario_bp.route("/usuarios", methods=('GET',))
@@ -23,16 +23,16 @@ def criarUsuario():
 @usuario_bp.route("/usuarios/<id>", methods=("PUT",))
 @validarToken
 def atualizarUsuario(id):
-    return controllers.atualizarUsuario(id)
+    return controllers.atualizarUsuario(int(id))
 
 # Rota de atualizar senha de um usuário
 @usuario_bp.route("/usuarios/<id>/atualizar-senha", methods=("PATCH",))
 @validarToken
 def atualizarSenha(id):
-    return controllers.atualizarSenha(id)
+    return controllers.atualizarSenha(int(id))
 
 # Rota de deletar usuário
 @usuario_bp.route("/usuarios/<id>", methods=('DELETE',))
 @validarToken
 def deletarUsuario(id):
-    return controllers.deletarUsuario(id)   
+    return controllers.deletarUsuario(int(id))   

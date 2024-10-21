@@ -14,7 +14,7 @@ def buscarMedidas():
 @medida_bp.route("/medidas/<id>", methods=('GET',))
 @validarToken
 def buscarMedida(id):
-    return controllers.buscarMedida(id)
+    return controllers.buscarMedida(int(id))
 
 # Rota de criar medida
 @medida_bp.route("/medidas", methods=('POST',))
@@ -26,10 +26,10 @@ def inserirMedida():
 @medida_bp.route("/medidas/<id>", methods=('PUT',))
 @validarToken
 def atualizarMedida(id):
-    return controllers.atualizarMedida(id)
+    return controllers.atualizarMedida(int(id))
 
 # Rota de deletar medida
 @medida_bp.route("/medidas/<id>", methods=('DELETE',))
 @validarToken
 def deletarMedida(id):
-    return controllers.deletarMedida(id)
+    return controllers.deletarMedida(int(id))

@@ -60,8 +60,8 @@ def criarUsuario():
 # atualizarUsuario atualiza campos de um usuário exceto senha
 def atualizarUsuario(id):
     # Pegando id do token para comparar com id passado
-    token_id = int(g.user_id)
-    if token_id != int(id):
+    token_id = g.user_id
+    if token_id != id:
         # Erro: somente pode atualizar os próprios dados
         return jsonify({"erro":"Somente pode atualizar os próprios dados"}), 403 
     # Lendo corpo da requisição
@@ -89,8 +89,8 @@ def atualizarUsuario(id):
 # atualizarSenha atualizar a senha de um usuário
 def atualizarSenha(id):
     # Pegando id do token para comparar com id passado
-    token_id = int(g.user_id)
-    if token_id != int(id):
+    token_id = g.user_id
+    if token_id != id:
         # Erro: somente pode atualizar os próprios dados
         return jsonify({"erro":"Somente pode atualizar os próprios dados"}), 403
     # Lendo corpo da requisição
@@ -138,8 +138,8 @@ def atualizarSenha(id):
 # deletarUsuario deleta um usuario    
 def deletarUsuario(id):
     # Pegando id do token para comparar com id passado
-    token_id = int(g.user_id)
-    if token_id != int(id):
+    token_id = g.user_id
+    if token_id != id:
         # Erro: somente pode atualizar os próprios dados
         return jsonify({"erro":"Somente pode deletar a prórpria conta"}), 403
     # Chamando banco de dados para deletar usuário
