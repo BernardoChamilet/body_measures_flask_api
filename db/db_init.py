@@ -43,8 +43,5 @@ cursor.execute('''
                 )       
             ''')
 
-cursor.execute("insert into usuarios (usuario, nome, senha) values (?,?,?)",("Fufu","Fulano","123"))
-cursor.execute("insert into usuarios (usuario, nome, senha) values (?,?,?)",("Cici","Ciclano","123"))
-
 conexao.commit()
 conexao.close()
