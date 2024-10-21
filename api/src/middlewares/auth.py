@@ -21,7 +21,7 @@ def validarToken(f):
             return jsonify({'erro': 'Token expirado'}), 401
         except jwt.InvalidTokenError:
             #token inválido
-            return jsonify({'erro': 'Token expirado'}), 401
+            return jsonify({'erro': 'Token inválido'}), 401
         
         # Continua para a função
         return f(*args, **kwargs)
