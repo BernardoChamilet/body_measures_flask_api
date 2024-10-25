@@ -9,6 +9,12 @@ usuario_bp = Blueprint('usuarios', __name__)
 def buscarUsuario(id):
     return controllers.buscarUsuario(int(id))
 
+# Rota de buscar usuário pelo id
+@usuario_bp.route("/usuarios/me", methods=('GET',))
+@validarToken
+def buscarUsuarioLogado():
+    return controllers.buscarUsuarioLogado()
+
 # Rota de buscar todos usuários
 @usuario_bp.route("/usuarios", methods=('GET',))
 def buscarUsuarios():

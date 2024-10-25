@@ -20,6 +20,21 @@ def buscarUsuario(id):
         # Sucesso, usuario não encontrado
         return '', 204
     
+# buscarUsuario busca dados não sensíveis de um usuário logado
+def buscarUsuarioLogado():
+    id = g.user_id
+    # Chamando banco de dados para buscar usuario
+    usuario, erro = repositories.buscarUsuario(id)
+    if erro != None:
+        # Erro interno de banco de dados
+        return jsonify({"erro": erro}), 500
+    elif usuario != None:
+        # Sucesso, usuario encontrado
+        return jsonify(usuario), 200
+    else:
+        # Sucesso, usuario não encontrado
+        return '', 204
+    
 # buscarUsuarios busca dados não sensíveis de todos usuários
 def buscarUsuarios():
     # Chamando banco de dados para buscar usuários
