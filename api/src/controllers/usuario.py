@@ -13,12 +13,11 @@ def buscarUsuario(id):
     if erro != None:
         # Erro interno de banco de dados
         return jsonify({"erro": erro}), 500
-    elif usuario != None:
+    if usuario != None:
         # Sucesso, usuario encontrado
         return jsonify(usuario), 200
-    else:
-        # Sucesso, usuario não encontrado
-        return '', 204
+    # Sucesso, usuario não encontrado
+    return '', 204
     
 # buscarUsuario busca dados não sensíveis de um usuário logado
 def buscarUsuarioLogado():
@@ -28,12 +27,11 @@ def buscarUsuarioLogado():
     if erro != None:
         # Erro interno de banco de dados
         return jsonify({"erro": erro}), 500
-    elif usuario != None:
+    if usuario != None:
         # Sucesso, usuario encontrado
         return jsonify(usuario), 200
-    else:
-        # Sucesso, usuario não encontrado
-        return '', 204
+    # Sucesso, usuario não encontrado
+    return '', 204
     
 # buscarUsuarios busca dados não sensíveis de todos usuários
 def buscarUsuarios():
@@ -42,12 +40,11 @@ def buscarUsuarios():
     if erro != None:
         # Erro interno de servidor de banco de dados
         return jsonify({"erro": erro}), 500
-    elif usuarios != None:
+    if usuarios != None:
         # Sucesso, usuarios encontrados
         return jsonify(usuarios), 200
-    else:
-        # Sucesso, no content
-        return '', 204
+    # Sucesso, no content
+    return '', 204
 
 # criarUsuario cria um novo usuário
 def criarUsuario():
@@ -94,12 +91,11 @@ def atualizarUsuario(id):
             return jsonify({"erro": "Usuário já existe"}), 409
         # Erro interno de servidor de banco de dados
         return jsonify({"erro": erro}), 500
-    elif linhasAtualizadas == 0:
+    if linhasAtualizadas == 0:
         # Erro, nenhum usuario com esse id
         return jsonify({"erro":"Nenhum usuário com esse id encontrado"}), 404
-    else:
-        # Sucesso, no content
-        return '', 204
+    # Sucesso, no content
+    return '', 204
 
 # atualizarSenha atualizar a senha de um usuário
 def atualizarSenha(id):
@@ -120,34 +116,32 @@ def atualizarSenha(id):
     if erro != None:
         # Erro interno do servidor de banco de dados
         return jsonify({"erro": erro}), 500
-    elif senhaSalva == None:
+    if senhaSalva == None:
         # Erro, nenhum usuário com esse id
         return jsonify({"erro":"Nenhum usuário com esse id encontrado"}), 404
+    # Vendo se senha atual digitada está correta
+    senhaAtual = senhas.senha_atual
+    if bcrypt.check_password_hash(senhaSalva, senhaAtual):
+        senhaNova = senhas.senha_nova
+        # Vendo se senha nova e salva são iguais
+        if bcrypt.check_password_hash(senhaSalva, senhaNova):
+            # Erro, enha nova e atuais são iguais
+            return jsonify({"erro": "Nova senha não pode ser igual a senha atual"}), 400
+        # Criptografando senha nova
+        senhaNova = bcrypt.generate_password_hash(senhaNova).decode('utf-8')
+        # Chamando banco de dados para atualizar senha
+        linhasAtualizadas, erro = repositories.atualizarSenha(senhaNova, id)
+        if erro != None:
+            # Erro interno de servidor de banco de dados
+            return jsonify({"erro": erro}), 500
+        if linhasAtualizadas == 0:
+            # Erro, nenhum usuário com id passado
+            return jsonify({"erro":"Nenhum usuário com esse id encontrado"}), 404
+        # Sucesso, no content
+        return '', 204
     else:
-        # Vendo se senha atual digitada está correta
-        senhaAtual = senhas.senha_atual
-        if bcrypt.check_password_hash(senhaSalva, senhaAtual):
-            senhaNova = senhas.senha_nova
-            # Vendo se senha nova e salva são iguais
-            if bcrypt.check_password_hash(senhaSalva, senhaNova):
-                # Erro, enha nova e atuais são iguais
-                return jsonify({"erro": "Nova senha não pode ser igual a senha atual"}), 400
-            # Criptografando senha nova
-            senhaNova = bcrypt.generate_password_hash(senhaNova).decode('utf-8')
-            # Chamando banco de dados para atualizar senha
-            linhasAtualizadas, erro = repositories.atualizarSenha(senhaNova, id)
-            if erro != None:
-                # Erro interno de servidor de banco de dados
-                return jsonify({"erro": erro}), 500
-            elif linhasAtualizadas == 0:
-                # Erro, nenhum usuário com id passado
-                return jsonify({"erro":"Nenhum usuário com esse id encontrado"}), 404
-            else:
-                # Sucesso, no content
-                return '', 204
-        else:
-            # Erro, senha digitada incorretas
-            return jsonify({"erro":"Senha atual incorreta"}), 400
+        # Erro, senha digitada incorretas
+        return jsonify({"erro":"Senha atual incorreta"}), 400
 
 
 # deletarUsuario deleta um usuario    
@@ -162,9 +156,8 @@ def deletarUsuario(id):
     if erro != None:
         # Erro interno de servidor de banco de dados
         return jsonify({"erro": erro}), 500
-    elif linhasDeletadas == 0:
+    if linhasDeletadas == 0:
         # Erro, nenhum usuário com esse id
         return jsonify({"erro":"Nenhum usuário com esse id encontrado"}), 404
-    else:
-        # Sucesso, retorna id do usuário apagado
-        return jsonify({"id":id}), 200
+    # Sucesso, retorna id do usuário apagado
+    return jsonify({"id":id}), 200

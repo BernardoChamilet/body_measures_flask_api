@@ -12,12 +12,11 @@ def buscarMedidas():
     if erro != None:
         # Erro interno do servidor de banco de dados
         return jsonify({"erro": erro}), 500
-    elif medidas != None:
+    if medidas != None:
         # Sucesso, buscou medidas
         return jsonify(medidas), 200
-    else:
-        # Sucesso, não tem medidas
-        return '', 204
+    # Sucesso, não tem medidas
+    return '', 204
     
 # buscarMedida busca uma medida por seu id
 def buscarMedida(id):
@@ -26,12 +25,11 @@ def buscarMedida(id):
     if erro != None:
         # Erro interno do servidor de banco de dados
         return jsonify({"erro":erro}), 500
-    elif medida != None:
+    if medida != None:
         # Sucesso, retornou medida
         return jsonify(medida), 200
-    else:
-        # Sucesso, não tem medida
-        return '', 204
+    # Sucesso, não tem medida
+    return '', 204
     
 # inserirMedida cria uma nova medida de um usuário 
 def inserirMedida():
@@ -79,13 +77,12 @@ def atualizarMedida(id):
     if erro != None:
         # Erro interno de servidor de banco de dados
         return jsonify({"erro": erro}), 500
-    elif linhasAtualizadas == 0:
+    if linhasAtualizadas == 0:
         # Erro, nenhuma medida com esse id
         return jsonify({"erro":"Nenhuma medida com esse id encontrada"}), 404
-    else:
-        # Sucesso, no content
-        return '', 204
-    
+    # Sucesso, no content
+    return '', 204
+
 # deletarMedida deleta uma medida    
 def deletarMedida(id):
     # Pegando id do token
@@ -106,9 +103,8 @@ def deletarMedida(id):
     if erro != None:
         # Erro interno de servidor de banco de dados
         return jsonify({"erro": erro}), 500
-    elif linhasDeletadas == 0:
+    if linhasDeletadas == 0:
         # Erro, medidad não encontrada
         return jsonify({"erro":"Nenhuma medida com esse id encontrada"}), 404
-    else:
-        # Sucesso, retorna id da medida deletada
-        return jsonify({"id":id}), 200
+    # Sucesso, retorna id da medida deletada
+    return jsonify({"id":id}), 200
