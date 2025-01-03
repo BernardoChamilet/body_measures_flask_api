@@ -42,13 +42,12 @@ def buscarMedida(id):
     finally:
         if conn:
             conn.close()
-    if medida != None:
-        # Medida encontrada
-        return dict(medida), None
-    else:
+    if medida == None:
         # Nenhuma medida encontrada
         return None, None
-
+    # Medida encontrada
+    return dict(medida), None
+        
 # buscarDono busca o dono da medida pelo id da medida    
 def buscarDono(id):
     try:
@@ -63,12 +62,11 @@ def buscarDono(id):
     finally:
         if conn:
             conn.close()
-    if dono != None:
-        # Medida encontrada
-        return dono[0], None
-    else:
+    if dono == None:
         # Nenhuma medida encontrada
         return None, None
+    # Medida encontrada
+    return dono[0], None
 
 # inserirMedida insere uma nova medida de um usuário
 def inserirMedida(medidas, user):

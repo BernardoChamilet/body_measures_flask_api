@@ -18,12 +18,11 @@ def buscarUsuario(id):
     finally:
         if conn:
             conn.close()
-    if usuario != None:
-        # Usuário encontrado
-        return dict(usuario), None
-    else:
+    if usuario == None:
         # Usuário não encontrado
         return None, None
+    # Usuário encontrado
+    return dict(usuario), None
     
 # buscarUsuarios busca dados de todos usuários, exceto senhas
 def buscarUsuarios():
@@ -129,12 +128,11 @@ def buscarSenha(id):
     finally:
         if conn:
             conn.close()
-    if senha != None:
-        # Sucesso, retornando senha
-        return senha[0], None
-    else:
+    if senha == None:
         # Nenhum usuário com esse id encontrado
         return None, None
+    # Sucesso, retornando senha
+    return senha[0], None
     
 # buscarSenha busca a senha de um usuário usando usuario
 def buscarSenhaEIDPeloUser(user):
@@ -149,12 +147,11 @@ def buscarSenhaEIDPeloUser(user):
     finally:
         if conn:
             conn.close()
-    if senhaEID != None:
-        # Sucesso, retornando senha
-        return senhaEID[1], senhaEID[0], None
-    else:
+    if senhaEID == None:
         # Nenhum usuário encontrado
         return None, None, None
+    # Sucesso, retornando senha
+    return senhaEID[1], senhaEID[0], None
 
 # deletarUsuario deleta um usuário
 def deletarUsuario(id):
