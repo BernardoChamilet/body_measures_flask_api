@@ -2,7 +2,7 @@
 
 REST API built with Flask for a body measurement tracking application.
 
-## Estrutura do sistema
+## Estrutura da API
 * Config: inicialização de variáveis de ambiente
 * Controllers: funções das rotas. Recebem a requisição, interagem com outros módulos e enviam a resposta
 * Middlewares: funções a serem executadas entre a requisição e a chamada das funções das rotas de fato
