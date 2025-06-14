@@ -50,3 +50,43 @@ paths:
                     type: string
                     example: Senha incorreta
         $ref: './components/responses/internal_server_error.yaml'
+  /usuarios:
+    post:
+      summary: Cadastrar usuário
+      description: Cadastra um novo usuário e retorna seu id
+      tags:
+        - Usuários
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './components/schemas/usuarios/cadastrar_usuario_req_body.yaml'
+      responses:
+        '201':
+          description: Usuário criado
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/usuarios/cadastrar_usuario_res.yaml'
+        '400':
+          description: Requisição mal feita
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Senha deve ter pelo menos 6 caracteres
+        '409':
+          description: Conflito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Usuário já existe
+        $ref: './components/responses/internal_server_error.yaml'

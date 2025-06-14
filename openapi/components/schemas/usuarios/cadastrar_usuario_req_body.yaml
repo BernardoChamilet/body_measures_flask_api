@@ -3,9 +3,13 @@ properties:
   usuario:
     type: string
     example: Fulano123
+  nome:
+    type: string
+    example: Fulano Silva
   senha:
     type: string
     format: password
 required:
-  - email
+  - usuario
+  - nome
   - senha
