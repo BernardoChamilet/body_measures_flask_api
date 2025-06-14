@@ -36,7 +36,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  message:
+                  erro:
                     type: string
                     example: email ou senha não são strings
         '401':
@@ -46,10 +46,11 @@ paths:
               schema:
                 type: object
                 properties:
-                  message:
+                  erro:
                     type: string
                     example: Senha incorreta
-        $ref: './components/responses/internal_server_error.yaml'
+        '500':
+          $ref: './components/responses/internal_server_error.yaml'
   /usuarios:
     post:
       summary: Cadastrar usuário
@@ -76,7 +77,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  message:
+                  erro:
                     type: string
                     example: Senha deve ter pelo menos 6 caracteres
         '409':
@@ -86,10 +87,11 @@ paths:
               schema:
                 type: object
                 properties:
-                  message:
+                  erro:
                     type: string
                     example: Usuário já existe
-        $ref: './components/responses/internal_server_error.yaml'
+        '500':
+          $ref: './components/responses/internal_server_error.yaml'
     get:
       summary: Listar usuários
       description: Lista todos usuários cadastrados
@@ -106,7 +108,8 @@ paths:
                   $ref: './components/schemas/usuarios/nao_sensiveis.yaml'
         '204':
           description: Sem conteúdo
-        $ref: './components/responses/internal_server_error.yaml'
+        '500':
+          $ref: './components/responses/internal_server_error.yaml'
   /usuarios/me:
     get:
       summary: Buscar usuário logado
@@ -124,19 +127,17 @@ paths:
                 $ref: './components/schemas/usuarios/nao_sensiveis.yaml'
         '204':
           description: Sem conteúdo
-        $ref: './components/responses/internal_server_error.yaml'
+        '401':
+          $ref: './components/responses/nao_autorizado_token.yaml'
+        '500':
+          $ref: './components/responses/internal_server_error.yaml'
   /usuarios/{id}:
     get:
       summary: Buscar usuário por id
       description: Busca dados exceto a senha de um usuário por id
       parameters:
         - $ref: './components/parameters/jwt.yaml'
-        - name: id
-          in: path
-          required: true
-          description: id do usuário
-          schema:
-            type: integer
+        - $ref: './components/parameters/id_usuario.yaml'
       tags:
         - Usuários
       responses:
@@ -148,4 +149,60 @@ paths:
                 $ref: './components/schemas/usuarios/nao_sensiveis.yaml'
         '204':
           description: Sem conteúdo
-        $ref: './components/responses/internal_server_error.yaml'
+        '401':
+          $ref: './components/responses/nao_autorizado_token.yaml'
+        '500':
+          $ref: './components/responses/internal_server_error.yaml'
+    put:
+      summary: Atualizar usuário
+      description: Atualiza dados exceto a senha de um usuário com determinado id
+      parameters:
+        - $ref: './components/parameters/jwt.yaml'
+        - $ref: './components/parameters/id_usuario.yaml'
+      tags:
+        - Usuários
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './components/schemas/usuarios/atualizar_usuario_req_body.yaml'
+      responses:
+        '204':
+          description: Usuário atualizado (sem conteúdo)
+        '400':
+          description: Requisição mal feita
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Usuario deve ter pelo menos 7 caracteres
+        '401':
+          $ref: './components/responses/nao_autorizado_token.yaml'
+        '403':
+          description: Proíbido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Somente pode atualizar os próprios dados
+        '404':
+          $ref: './components/responses/not_found_usuario.yaml'
+        '409':
+          description: Conflito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Usuário já existe
+        '500':
+          $ref: './components/responses/internal_server_error.yaml'

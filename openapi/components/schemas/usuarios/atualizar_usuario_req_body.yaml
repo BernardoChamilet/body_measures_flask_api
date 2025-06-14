@@ -1,0 +1,11 @@
+type: object
+properties:
+  usuario:
+    type: string
+    example: Fulano123
+  nome:
+    type: string
+    example: Fulano Silva
+required:
+  - usuario
+  - nome

@@ -1,4 +1,4 @@
-description: Erro interno do servidor
+description: Não autorizado
 content:
   application/json:
     schema:
@@ -6,4 +6,4 @@ content:
       properties:
         erro:
           type: string
-          example: Erro de banco de dados
+          example: Token inválido/faltando/expirado
