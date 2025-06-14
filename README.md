@@ -32,7 +32,13 @@ SECRET_KEY=sua_chave_secreta
 DB_NAME=nome_do_banco_sqlite
 DEBUG=True/False
 ```
-* 5. Na raiz do projeto rode
+* 5. Crie o banco de dados sqlite
+```
+cd db
+python db_init.py
+cd ..
+```
+* 6. Na raiz do projeto rode
 ```
 cd api
 python app.py
