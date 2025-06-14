@@ -281,3 +281,38 @@ paths:
           $ref: './components/responses/not_found_usuario.yaml'
         '500':
           $ref: './components/responses/internal_server_error.yaml'
+  /medidas:
+    post:
+      summary: Registrar medida
+      description: Registra nova medida e retorna seu id
+      parameters:
+        - $ref: './components/parameters/jwt.yaml'
+      tags:
+        - Medidas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './components/schemas/medidas/registrar_medida_req_body.yaml'
+      responses:
+        '201':
+          description: Medida registrada
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/usuarios/cadastrar_usuario_res.yaml'
+        '400':
+          description: Requisição mal feita
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Algum campo em formato inválido
+        '401':
+          $ref: './components/responses/nao_autorizado_token.yaml'
+        '500':
+          $ref: './components/responses/internal_server_error.yaml'

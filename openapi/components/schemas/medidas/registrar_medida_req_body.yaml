@@ -1,0 +1,34 @@
+type: object
+properties:
+  data:
+    type: string
+    format: date-time
+  peso:
+    type: number
+  ombro:
+    type: number
+  peito:
+    type: number
+  braco:
+    type: number
+  antebraco:
+    type: number
+  cintura:
+    type: number
+  quadril:
+    type: number
+  coxa:
+    type: number
+  panturrilha:
+    type: number
+required:
+  - data
+  - peso
+  - ombro
+  - peito
+  - braco
+  - antebraco
+  - cintura
+  - quadril
+  - coxa
+  - panturrilha
