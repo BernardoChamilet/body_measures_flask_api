@@ -334,5 +334,29 @@ paths:
                   $ref: './components/schemas/medidas/buscar_medida_res.yaml'
         '204':
           description: Usuário logado não possui medidas
+        '401':
+          $ref: './components/responses/nao_autorizado_token.yaml'
+        '500':
+          $ref: './components/responses/internal_server_error.yaml'
+  /medidas/{id}:
+    get:
+      summary: Buscar medida por id
+      description: Busca uma medida por id
+      parameters:
+        - $ref: './components/parameters/jwt.yaml'
+        - $ref: './components/parameters/id_medida.yaml'
+      tags:
+        - Medidas
+      responses:
+        '200':
+          description: Medida buscada
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/medidas/buscar_medida_res.yaml'
+        '204':
+          description: Sem conteúdo
+        '401':
+          $ref: './components/responses/nao_autorizado_token.yaml'
         '500':
           $ref: './components/responses/internal_server_error.yaml'
