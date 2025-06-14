@@ -237,3 +237,47 @@ paths:
           $ref: './components/responses/not_found_usuario.yaml'
         '500':
           $ref: './components/responses/internal_server_error.yaml'
+  /usuarios/{id}/atualizar-senha:
+    patch:
+      summary: Atualizar senha
+      description: Atualiza a senha de um usuário com determinado id
+      parameters:
+        - $ref: './components/parameters/jwt.yaml'
+        - $ref: './components/parameters/id_usuario.yaml'
+      tags:
+        - Usuários
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './components/schemas/usuarios/atualizar_senha_req_body.yaml'
+      responses:
+        '204':
+          description: Senha atualizada (sem conteúdo)
+        '400':
+          description: Requisição mal feita
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Nova senha não pode ser igual a senha atual
+        '401':
+          $ref: './components/responses/nao_autorizado_token.yaml'
+        '403':
+          description: Proíbido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Somente pode atualizar os próprios dados
+        '404':
+          $ref: './components/responses/not_found_usuario.yaml'
+        '500':
+          $ref: './components/responses/internal_server_error.yaml'
