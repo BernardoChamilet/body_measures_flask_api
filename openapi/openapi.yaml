@@ -403,3 +403,34 @@ paths:
           $ref: './components/responses/not_found_medida.yaml'
         '500':
           $ref: './components/responses/internal_server_error.yaml'
+    delete:
+      summary: Deletar medida
+      description: Deleta medida com determinado id
+      parameters:
+        - $ref: './components/parameters/jwt.yaml'
+        - $ref: './components/parameters/id_medida.yaml'
+      tags:
+        - Medidas
+      responses:
+        '200':
+          description: Medida deletada
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/usuarios/cadastrar_usuario_res.yaml'
+        '401':
+          $ref: './components/responses/nao_autorizado_token.yaml'
+        '403':
+          description: Proíbido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Somente pode deletar as próprias medidas
+        '404':
+          $ref: './components/responses/not_found_medida.yaml'
+        '500':
+          $ref: './components/responses/internal_server_error.yaml'
