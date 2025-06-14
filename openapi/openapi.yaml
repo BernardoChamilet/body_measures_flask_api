@@ -90,3 +90,20 @@ paths:
                     type: string
                     example: Usuário já existe
         $ref: './components/responses/internal_server_error.yaml'
+    get:
+      summary: Listar usuários
+      description: Lista todos usuários cadastrados
+      tags:
+        - Usuários
+      responses:
+        '200':
+          description: Usuários listados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './components/schemas/usuarios/nao_sensiveis.yaml'
+        '204':
+          description: Sem conteúdo
+        $ref: './components/responses/internal_server_error.yaml'
