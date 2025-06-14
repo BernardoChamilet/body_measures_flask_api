@@ -107,3 +107,21 @@ paths:
         '204':
           description: Sem conteúdo
         $ref: './components/responses/internal_server_error.yaml'
+  /usuarios/me:
+    get:
+      summary: Buscar usuário logado
+      description: Busca dados exceto a senha do usuário logado
+      parameters:
+        - $ref: './components/parameters/jwt.yaml'
+      tags:
+        - Usuários
+      responses:
+        '200':
+          description: Dados do usuário buscados
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/usuarios/nao_sensiveis.yaml'
+        '204':
+          description: Sem conteúdo
+        $ref: './components/responses/internal_server_error.yaml'
