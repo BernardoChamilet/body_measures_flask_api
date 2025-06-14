@@ -1,0 +1,13 @@
+version: '3'
+services:
+  api:
+    image: api_medidas:latest
+    ports:
+      - "5000:5000"
+    restart: always
+    environment:
+      DEBUG: ${DEBUG}
+      DB_NAME: ${DB_NAME}
+      SECRET_KEY: ${SECRET_KEY}
+    command: >
+      sh -c "python /usr/src/body_measures_api/db/db_init.py && python app.py"
