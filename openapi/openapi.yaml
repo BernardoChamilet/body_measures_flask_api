@@ -125,3 +125,27 @@ paths:
         '204':
           description: Sem conteúdo
         $ref: './components/responses/internal_server_error.yaml'
+  /usuarios/{id}:
+    get:
+      summary: Buscar usuário por id
+      description: Busca dados exceto a senha de um usuário por id
+      parameters:
+        - $ref: './components/parameters/jwt.yaml'
+        - name: id
+          in: path
+          required: true
+          description: id do usuário
+          schema:
+            type: integer
+      tags:
+        - Usuários
+      responses:
+        '200':
+          description: Dados do usuário buscados
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/usuarios/nao_sensiveis.yaml'
+        '204':
+          description: Sem conteúdo
+        $ref: './components/responses/internal_server_error.yaml'
