@@ -206,3 +206,34 @@ paths:
                     example: Usuário já existe
         '500':
           $ref: './components/responses/internal_server_error.yaml'
+    delete:
+      summary: Deletar usuário
+      description: Deleta dados de um usuário com determinado id
+      parameters:
+        - $ref: './components/parameters/jwt.yaml'
+        - $ref: './components/parameters/id_usuario.yaml'
+      tags:
+        - Usuários
+      responses:
+        '200':
+          description: Dados do usuário deletados
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/usuarios/cadastrar_usuario_res.yaml'
+        '401':
+          $ref: './components/responses/nao_autorizado_token.yaml'
+        '403':
+          description: Proíbido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Somente pode deletar a prórpria conta
+        '404':
+          $ref: './components/responses/not_found_usuario.yaml'
+        '500':
+          $ref: './components/responses/internal_server_error.yaml'
