@@ -1,0 +1,29 @@
+type: object
+properties:
+  id:
+    type: integer
+    example: 1
+  data:
+    type: string
+    format: date-time
+  peso:
+    type: number
+  ombro:
+    type: number
+  peito:
+    type: number
+  braco:
+    type: number
+  antebraco:
+    type: number
+  cintura:
+    type: number
+  quadril:
+    type: number
+  coxa:
+    type: number
+  panturrilha:
+    type: number
+  usuario:
+    type: integer
+    example: 1

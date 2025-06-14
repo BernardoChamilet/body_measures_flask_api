@@ -316,3 +316,23 @@ paths:
           $ref: './components/responses/nao_autorizado_token.yaml'
         '500':
           $ref: './components/responses/internal_server_error.yaml'
+    get:
+      summary: Listar medidas
+      description: Lista todas medidas do usuário logado
+      parameters:
+        - $ref: './components/parameters/jwt.yaml'
+      tags:
+        - Medidas
+      responses:
+        '200':
+          description: Medidas listadas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './components/schemas/medidas/buscar_medida_res.yaml'
+        '204':
+          description: Usuário logado não possui medidas
+        '500':
+          $ref: './components/responses/internal_server_error.yaml'
