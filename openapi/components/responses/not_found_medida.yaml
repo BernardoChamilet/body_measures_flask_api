@@ -1,0 +1,9 @@
+description: Não encontrado
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        erro:
+          type: string
+          example: Nenhuma medida com esse id encontrada
