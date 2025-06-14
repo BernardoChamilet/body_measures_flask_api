@@ -1,0 +1,7 @@
+type: object
+properties:
+  token:
+    type: string
+  cookie_expiration:
+    type: string
+    format: date-time

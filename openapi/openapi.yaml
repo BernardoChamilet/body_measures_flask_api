@@ -1,0 +1,52 @@
+openapi: 3.0.3
+info:
+  title: Body Measures Flask API
+  version: 1.0.0
+  description: REST API built with Flask for a body measurement tracking application.
+  contact:
+    name: Suporte da API
+    email: bernardoboggionechamilet@gmail.com
+servers:
+  - url: http://localhost:5000
+    description: Servidor local de desenvolvimento
+paths:
+  /login:
+    post:
+      summary: Login
+      description: Verifica dados e retorna ou não token
+      tags:
+        - Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './components/schemas/login/login_req_body.yaml'
+      responses:
+        '200':
+          description: Login efetuado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/login/login_res.yaml' 
+        '400':
+          description: Requisição mal feita
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: email ou senha não são strings
+        '401':
+          description: Não autorizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Senha incorreta
+        $ref: './components/responses/internal_server_error.yaml'
